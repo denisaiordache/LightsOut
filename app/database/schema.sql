@@ -2,6 +2,14 @@
 
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS user_profile;
+
+--TODO: extend with relevant fields
+CREATE TABLE user_profile (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  profile_name TEXT UNIQUE NOT NULL
+
+);
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

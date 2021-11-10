@@ -2,6 +2,6 @@
 
 DEBUG = True #remove when deploying
 SECRET_KEY = 'development key' #replace with random string when deploying
-DATABASE = 'database.sqlite' #name of the sqlite file (is used as route too so be careful about replacing or moving the file location)
+DATABASE = 'database/database.sqlite' #name of the sqlite file (is used as route too so be careful about replacing or moving the file location)
 
 
