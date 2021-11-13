@@ -1,21 +1,26 @@
-import sqlite3
-import click
-from flask import current_app, g
-from flask.cli import with_appcontext
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
+from models.user_profile import UserProfile
 
-db = SQLAlchemy()
+def create_db(app, db):
+    with app.app_context():
+        #Delete database file if it exists currently
+        if os.path.exists("config/database.sqlite"):
+            os.remove("config/database.sqlite")
+        db.create_all()
 
-@click.command("init-db")
-@with_appcontext
-def init_db_command():
-    """Clear the existing data and create new tables."""
-    db.drop_all()
-    db.create_all()
-    click.echo("Initialized the database.")
+def populate_db(app, db):
+    with app.app_context():
+        db.session.add(UserProfile(profile_name="test1"))
+        db.session.add(UserProfile(profile_name="test2"))
+        db.session.add(UserProfile(profile_name="test3"))
+        db.session.commit()
 
-
-def init_app(app):
-    """Initialize the Flask app for database usage."""
-    db.init_app(app)
-    app.cli.add_command(init_db_command)
+if __name__ == "__main__":
+    #initialize and configure the app and db variables 
+    app = Flask(__name__)
+    app.config.from_pyfile('config.py')
+    db = SQLAlchemy(app)
+    create_db(app, db)
+    populate_db(app, db)
