@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 from models.user_profile import UserProfile
+from models.light import Light
 
 def create_db(app, db):
     with app.app_context():
@@ -15,6 +16,9 @@ def populate_db(app, db):
         db.session.add(UserProfile(profile_name="test1"))
         db.session.add(UserProfile(profile_name="test2"))
         db.session.add(UserProfile(profile_name="test3"))
+        db.session.add(Light())
+        db.session.add(Light())
+        db.session.add(Light())
         db.session.commit()
 
 if __name__ == "__main__":

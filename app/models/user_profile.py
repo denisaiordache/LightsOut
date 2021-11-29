@@ -1,6 +1,8 @@
 from config.factory import db
 
 class UserProfile(db.Model):
+    __tablename__ = 'user profiles'
+
     profile_name = db.Column(db.String, primary_key=True)
 
     def update(self, new_dict):
