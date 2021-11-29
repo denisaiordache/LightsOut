@@ -14,25 +14,20 @@ populate_db(app, db)
 def hello_world_route():
     return "<p>Hello, World!!!!</p>"
 
-@app.route("/user_profile/create", methods=["POST"])
-def create_user_profile_route():
-    return create_user_profile.create_user_profile()
-
-@app.route("/user_profiles", methods=["GET"])
-def read_user_profiles_route():
-    return get_user_profiles.get_user_profiles()
-
-@app.route("/user_profile", methods=["GET"])
-def read_user_profile_route():
-    return get_user_profile.get_user_profile()
-
-@app.route("/user_profile/update", methods=["POST"])
-def update_user_profile_route():
-    return update_user_profile.update_user_profile()
-
-@app.route("/user_profile/delete", methods=["POST"])
-def delete_user_profile_route():
-    return delete_user_profile.delete_user_profile()
+@app.route('/user_profile/', defaults={'profile_name': "-1"})
+@app.route("/user_profile/<string:profile_name>", methods=["GET", "PUT", "POST", "DELETE"])
+def user_profile_route(profile_name):
+    if request.method == "GET":
+        if profile_name == "-1":
+            return get_user_profiles.get_user_profiles()
+        else:
+            return get_user_profile.get_user_profile(profile_name)
+    elif request.method == "PUT":
+        return update_user_profile.update_user_profile(profile_name)
+    elif request.method == "DELETE":
+        return delete_user_profile.delete_user_profile(profile_name)
+    elif request.method == "POST":
+        return create_user_profile.create_user_profile(profile_name)
 
 if __name__ == "__main__":
     app.run() 
