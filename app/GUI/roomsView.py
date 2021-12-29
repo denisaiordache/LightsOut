@@ -3,16 +3,17 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 
 
-class App(tk.Tk):
-    def __init__(self):
-        super().__init__()
+class ScrollableFrame(ttk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
 
-        self.geometry("840x700")
-        self.config(bg="#FAE3E3")
-        self.title('Rooms')
+        s = ttk.Style()
+        s.configure('Scroll.TFrame', background='#FAE3E3')
+        self.configure(style='Scroll.TFrame', width=900)
 
         self.canvas = tk.Canvas(bg="#FAE3E3")
         self.canvas.pack(side='left', fill="both", expand=1)
+        self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
 
         self.scrollbar = ttk.Scrollbar(
             self,
@@ -20,29 +21,41 @@ class App(tk.Tk):
             command=self.canvas.yview
         )
         self.scrollbar.pack(side='right', fill='y')
-
-        self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
-
-        self.second_frame = tk.Frame(self.canvas, bg="#FAE3E3")
-
-        self.second_frame.columnconfigure(0, weight=1)
-        self.second_frame.columnconfigure(1, weight=3)
-        self.second_frame.columnconfigure(2, weight=1)
-
-        self.canvas.create_window((50, 0), window=self.second_frame, anchor='nw')
-
         self.canvas['yscrollcommand'] = self.scrollbar.set
 
-        self.option_add("*Font", "\"Microsoft JhengHei UI\" 10")
+        # show wanted frame
 
-        self.titleLabel = tk.Label(self.second_frame, text='My Rooms', bg="#FAE3E3",
+        self.second_frame = MyRoomsFrame(self.canvas)
+        self.canvas.create_window((0, 0), window=self.second_frame, anchor='nw')
+
+    def destroy(self) -> None:
+        super().destroy()
+        self.canvas.destroy()
+        self.scrollbar.destroy()
+        self.second_frame.destroy()
+
+
+class MyRoomsFrame(ttk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
+
+        s = ttk.Style()
+        s.configure('MyRoomsFrame.TFrame', background='#FAE3E3')
+        self.configure(style='MyRoomsFrame.TFrame')
+
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=3)
+        self.columnconfigure(2, weight=1)
+
+        self.titleLabel = tk.Label(self, text='My Rooms', bg="#FAE3E3",
                                    font=("Microsoft JhengHei UI", 40, 'bold'))
         self.titleLabel.grid(column=1, row=0, pady=(10, 10))
 
         self.rooms = []
         for i in range(2):
             self.rooms.append(None)
-            self.rooms[i] = RoomFrame(self.second_frame, i + 1)
+            self.rooms[i] = RoomFrame(self, i + 1)
+
 
 
 class RoomFrame(ttk.Frame):
@@ -110,11 +123,3 @@ class RoomFrame(ttk.Frame):
         print('\n')
 
 
-if __name__ == "__main__":
-    try:
-        from ctypes import windll
-
-        windll.shcore.SetProcessDpiAwareness(1)
-    finally:
-        app = App()
-        app.mainloop()
