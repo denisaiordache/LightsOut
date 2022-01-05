@@ -48,7 +48,7 @@ class MyRoomsFrame(ttk.Frame):
         self.columnconfigure(2, weight=1)
 
         self.titleLabel = tk.Label(self, text='My Rooms', # bg="#FAE3E3",
-                                   font=("Microsoft JhengHei UI", 22, 'bold'))
+                                   font=("Microsoft JhengHei UI", 22, 'bold'), fg="black")
         self.titleLabel.grid(column=1, row=0, pady=(10, 10))
 
         self.rooms = []
@@ -63,7 +63,7 @@ class RoomFrame(ttk.Frame):
         super().__init__(container)
 
         s = ttk.Style()
-        s.configure('RoomFrame.TFrame', background='#604a5a')
+        s.configure('RoomFrame.TFrame', background='white')
         self.configure(style='RoomFrame.TFrame')
 
         self.columnconfigure(0, weight=1)
@@ -73,7 +73,7 @@ class RoomFrame(ttk.Frame):
 
         # numele camerei
 
-        s.configure(style='Title.TLabel', background="#604a5a", foreground = "white")
+        s.configure(style='Title.TLabel', background="white", foreground = "grey")
         self.title = ttk.Label(self, text='Livingroom', style='Title.TLabel', wraplength=700,
                                font=("Microsoft JhengHei UI", 16, "bold"))
         self.title.grid(columnspan=2, row=0, padx=(20, 20), pady=(0, 20),sticky="w")
@@ -86,7 +86,7 @@ class RoomFrame(ttk.Frame):
         for i in range(10):
             var = tk.IntVar(value=0)
             self.vars.append(var)
-            self.lightsList.append(tk.Checkbutton(self, text="Light " + str(i + 1),fg="#996e03", activeforeground="#d8ab3a", bg='#604a5a',activebackground="#603956", variable=var, onvalue=1, offvalue=0, command=self.printLightsState))
+            self.lightsList.append(tk.Checkbutton(self, text="Light " + str(i + 1),fg="black", bg='white',activebackground="grey", variable=var, onvalue=1, offvalue=0, command=self.printLightsState))
             self.lightsList[i].grid(column=0, row=i + 1, sticky='W', pady=5)
 
         # butoane
@@ -99,8 +99,8 @@ class RoomFrame(ttk.Frame):
 
         self.photoOff = ImageTk.PhotoImage(Image.open(r"Assets/LightOff.png").resize((20, 20)))
 
-        self.switchAllLightsOffButton = tk.Button(self, text='All lights off', background="#4a4b9e",relief='flat',
-                                                  activebackground="#373877",image=self.photoOff, compound="left", command=self.switchOffAllLights)
+        self.switchAllLightsOffButton = tk.Button(self, text='All lights off', background="#014372",relief='flat',
+                                                  activebackground="#003459",image=self.photoOff, compound="left", command=self.switchOffAllLights)
         self.switchAllLightsOffButton.grid(column=1, row=2, padx=(400, 0),pady=(5,0), ipadx=5, ipady=5)
 
         self.grid(column=1, row=index, padx=20, pady=20)
@@ -121,5 +121,3 @@ class RoomFrame(ttk.Frame):
             else:
                 print(f'Light {i+1} is on')
         print('\n')
-
-
