@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-from models.user_profile import UserProfile
-from models.light import Light
+import models
 
 def create_db(app, db):
     with app.app_context():
@@ -12,13 +11,14 @@ def create_db(app, db):
         db.create_all()
 
 def populate_db(app, db):
+    profile1, profile2 = models.UserProfile(profile_name="profile1"), models.UserProfile(profile_name="profile2")
+    room1, room2 = models.Room(name="bedroom"), models.Room(name="kitchen")
+    light1, light2 = models.Light(), models.Light()
+    room1.lights = [light1, light2]
+    profile1.rooms = [room1, room2]
     with app.app_context():
-        db.session.add(UserProfile(profile_name="test1"))
-        db.session.add(UserProfile(profile_name="test2"))
-        db.session.add(UserProfile(profile_name="test3"))
-        db.session.add(Light())
-        db.session.add(Light())
-        db.session.add(Light())
+        db.session.add(profile1)
+        db.session.add(profile2)
         db.session.commit()
 
 if __name__ == "__main__":
