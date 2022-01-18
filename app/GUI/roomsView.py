@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
+from ttkwidgets import TickScale
+from tkinter import colorchooser
 
 
 class ScrollableFrame(ttk.Frame):
@@ -95,16 +97,47 @@ class RoomFrame(ttk.Frame):
 
         self.switchAllLightsOnButton = tk.Button(self, text='All lights on', background="#d8ab3a", image=self.photoOn,relief='flat',
                                                  activebackground="#aa872e", compound="left", command=self.switchOnAllLights)
-        self.switchAllLightsOnButton.grid(column=1, row=1, padx=(400, 0), ipadx=5, ipady=5)
+        self.switchAllLightsOnButton.grid(column=1, row=1, padx=(100, 0), ipadx=5, ipady=5)
 
         self.photoOff = ImageTk.PhotoImage(Image.open(r"Assets/LightOff.png").resize((20, 20)))
 
         self.switchAllLightsOffButton = tk.Button(self, text='All lights off', background="#014372",relief='flat',
                                                   activebackground="#003459",image=self.photoOff, compound="left", command=self.switchOffAllLights)
-        self.switchAllLightsOffButton.grid(column=1, row=2, padx=(400, 0),pady=(5,0), ipadx=5, ipady=5)
+        self.switchAllLightsOffButton.grid(column=1, row=1, padx=(400, 0), ipadx=5, ipady=5)
 
         self.grid(column=1, row=index, padx=20, pady=20)
         self['padding'] = (100, 30)
+
+        #text for slider
+        self.lightsIntensity = tk.Label(self, text="Lights intensity", background="white")
+        self.lightsIntensity.grid(column=1, row=3, padx=(230, 0), ipadx=5)
+
+
+        #slider
+        s.configure('custom.Horizontal.TScale', background='white', foreground='grey',
+                    troughcolor='#73B5FA',)
+        self.scale = TickScale(self, from_=0, to=100, tickinterval=100, orient="horizontal", length=280,
+                               style='custom.Horizontal.TScale')
+        self.scale.grid(column=1, row=4, padx =(250,0),ipadx=5, rowspan=2)
+
+        #choose color button
+        self.colorChooser = ImageTk.PhotoImage(Image.open(r"Assets/color-picker.jpg").resize((40, 40)))
+        self.selectColorButton = tk.Button(self, text='Select color', background="#F5F5F5", relief='flat',
+                                                  activebackground="#E8E8E8", image=self.colorChooser, compound="left",
+                                                  command=self.chooseColor)
+        self.selectColorButton.grid(column=1, row=7, padx=(105, 0), ipadx=5, ipady=5)
+
+        self.color_code = "#000040"
+
+        #label for displaying color
+        self.choosedColor = tk.Label(self, background = self.color_code, width = 9, height = 2)
+        self.choosedColor.grid(column =1, row=7, padx=(450, 0), ipadx=5, ipady=5)
+
+
+    def chooseColor(self):
+        self.color_code = colorchooser.askcolor(title="Choose color")[1]
+        self.choosedColor.config(bg=self.color_code)
+        #print(self.color_code)
 
     def switchOffAllLights(self):
         for var in self.vars:

@@ -23,8 +23,8 @@ class App(tk.Tk):
         self.panel = tk.Label(self.menu, image=self.bulbIcon, background='#003459')
         self.panel.pack(side='bottom')
 
-        self.menuLabel = tk.Label(self.menu, text='Menu',image=self.menuIcon,compound="left", bg='#003459', fg="#1f4159", font=("Microsoft JhengHei UI", 16, 'bold'))
-        self.menuLabel.pack(ipadx=5, ipady=10, fill='x')
+        self.menuLabel = tk.Label(self.menu, text='Menu',compound="left", bg='#003459', fg="#d8ab3a", font=("Microsoft JhengHei UI", 15, 'bold'),anchor='w')
+        self.menuLabel.pack(padx=5,ipadx=10, ipady=10, fill='x')
 
         # Button for create profile
         self.roomsButton = tk.Button(self.menu, text='Create Profile', background="#d8ab3a",
@@ -32,7 +32,7 @@ class App(tk.Tk):
                                      activebackground="#aa872e", compound="left", width=30,
                                      command=self.showCreateProfile)
 
-        self.roomsButton.pack(ipadx=5, ipady=5, fill='x')
+        self.roomsButton.pack(pady=10,ipadx=5, ipady=5, fill='x')
 
         # Button for rooms
         self.roomsButton = tk.Button(self.menu, text='My Rooms', background="#d8ab3a",
@@ -44,7 +44,7 @@ class App(tk.Tk):
 
 
         # starting frame
-        self.frame = CreateProfileFrame(self)
+        self.frame = ScrollableFrame(self)
         self.frame.pack(side= 'right',fill="both", expand=1)
 
     def showMyRooms(self):
