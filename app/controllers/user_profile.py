@@ -22,7 +22,7 @@ def delete_user_profile(profile_name):
     data["profile_name"] = profile_name
     if data:
         try:
-            up = models.UserProfile.query.get(data["profile_name"])
+            up = CF.db.session.query(models.UserProfile).filter(models.UserProfile.profile_name==profile_name).first()
             CF.db.session.delete(up)
             CF.db.session.commit()
             return {}, 204
@@ -52,7 +52,11 @@ def update_user_profile(profile_name_to_update):
     data = request.get_json()
     if data:
         try:
-            up = models.UserProfile.query.get(profile_name_to_update).update(data)
+            up = models.UserProfile.query.get(profile_name_to_update)
+            rooms = up.rooms
+            up.update(data)
+            for room in rooms:
+                room.profile_name = up.profile_name
             CF.db.session.commit()
             return {"user_profile": up.json()}, 200
         except Exception as e:

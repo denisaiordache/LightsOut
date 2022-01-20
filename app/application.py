@@ -4,6 +4,7 @@ import config.factory as CF
 import config.database as DB_OPS
 import controllers.user_profile as CUP
 import controllers.light as CLIGHT
+import controllers.room as CROOM
 
 app, db = CF.app, CF.db
 
@@ -30,6 +31,21 @@ def user_profile_route(profile_name):
         return CUP.delete_user_profile(profile_name)
     elif request.method == "POST":
         return CUP.create_user_profile(profile_name)
+
+@app.route('/room/', defaults={'id': -1})
+@app.route("/room/<int:id>", methods=["GET", "PUT", "POST", "DELETE"])
+def room_route(id):
+    if request.method == "GET":
+        if id == -1:
+            return CROOM.get_rooms()
+        else:
+            return CROOM.get_room(id)
+    elif request.method == "PUT":
+        return CROOM.update_room(id)
+    elif request.method == "DELETE":
+        return CROOM.delete_room(id)
+    elif request.method == "POST":
+        return CROOM.create_room(id)
 
 @app.route('/light/', defaults={'id': -1})
 @app.route("/light/<int:id>", methods=["GET", "PUT", "POST", "DELETE"])

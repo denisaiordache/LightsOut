@@ -4,10 +4,11 @@ class UserProfile(CF.db.Model):
     __tablename__ = 'user_profile'
 
     profile_name = CF.db.Column(CF.db.String, primary_key=True)
-    rooms = CF.db.relationship("Room", back_populates="user_profile")
+    rooms = CF.db.relationship("Room", back_populates="user_profile", cascade="all, delete-orphan")
 
     def update(self, new_dict):
-        """Method to update all fields, given a dict with values for said fields."""
+        """Method to update all fields, given a dict with values for said fields.
+        Don't try to use with a newly created instance of this model. (self.__dict__ will be something else)"""
         
         for key, value in new_dict.items():
             if key in self.__dict__.keys():
@@ -20,7 +21,7 @@ class UserProfile(CF.db.Model):
 
     def json(self):
         return {"profile_name": self.profile_name,
-                "rooms": self.rooms}
+                "rooms": [x.json() for x in self.rooms]}
 
 
 class Room(CF.db.Model):
@@ -30,10 +31,11 @@ class Room(CF.db.Model):
     name = CF.db.Column(CF.db.String(100), default="Room #")
     profile_name = CF.db.Column(CF.db.Integer, CF.db.ForeignKey('user_profile.profile_name'))
     user_profile = CF.db.relationship("UserProfile", back_populates="rooms")
-    lights = CF.db.relationship("Light", back_populates="room")
+    lights = CF.db.relationship("Light", back_populates="room", cascade="all, delete-orphan")
 
     def update(self, new_dict):
-        """Method to update all fields, given a dict with values for said fields."""
+        """Method to update all fields, given a dict with values for said fields.
+        Don't try to use with a newly created instance of this model. (self.__dict__ will be something else)"""
         
         for key, value in new_dict.items():
             if key in self.__dict__.keys():
@@ -50,7 +52,7 @@ class Room(CF.db.Model):
         return {"id": self.id,
                 "name": self.name,
                 "profile_name": self.profile_name,
-                "lights": self.lights}
+                "lights": [x.json() for x in self.lights]}
 
 class Light(CF.db.Model):
     __tablename__ = 'light'
@@ -62,7 +64,8 @@ class Light(CF.db.Model):
     room = CF.db.relationship("Room", back_populates="lights")
 
     def update(self, new_dict):
-        """Method to update all fields, given a dict with values for said fields."""
+        """Method to update all fields, given a dict with values for said fields.
+        Don't try to use with a newly created instance of this model. (self.__dict__ will be something else)"""
         
         for key, value in new_dict.items():
             if key in self.__dict__.keys():
