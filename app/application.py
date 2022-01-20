@@ -3,6 +3,7 @@ from flask import request
 import config.factory as CF
 import config.database as DB_OPS
 import controllers.user_profile as CUP
+import controllers.light as CLIGHT
 
 app, db = CF.app, CF.db
 
@@ -29,6 +30,21 @@ def user_profile_route(profile_name):
         return CUP.delete_user_profile(profile_name)
     elif request.method == "POST":
         return CUP.create_user_profile(profile_name)
+
+@app.route('/light/', defaults={'id': -1})
+@app.route("/light/<int:id>", methods=["GET", "PUT", "POST", "DELETE"])
+def light_route(id):
+    if request.method == "GET":
+        if id == -1:
+            return CLIGHT.get_lights()
+        else:
+            return CLIGHT.get_light(id)
+    elif request.method == "PUT":
+        return CLIGHT.update_light(id)
+    elif request.method == "DELETE":
+        return CLIGHT.delete_light(id)
+    elif request.method == "POST":
+        return CLIGHT.create_light(id)
 
 if __name__ == "__main__":
     app.run() 

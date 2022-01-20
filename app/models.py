@@ -15,10 +15,12 @@ class UserProfile(CF.db.Model):
         return self
 
     def __repr__(self):
-        return f"<profile_name: {self.profile_name}>"
+        return f"<profile_name: {self.profile_name}> \
+                <rooms: {self.rooms}>"
 
     def json(self):
-        return {"profile_name": self.profile_name}
+        return {"profile_name": self.profile_name,
+                "rooms": self.rooms}
 
 
 class Room(CF.db.Model):
@@ -70,10 +72,12 @@ class Light(CF.db.Model):
     def __repr__(self):
         return f"<id: {self.id}> \
                 <name: {self.name}> \
-                <intensity: {self.intensity}>"
+                <intensity: {self.intensity}> \
+                <room_id: {self.room_id}>"
 
     def json(self):
         return {"id": self.id,
                 "name": self.name,
-                "intensity": self.intensity}
+                "intensity": self.intensity,
+                "room_id": self.room_id}
 
