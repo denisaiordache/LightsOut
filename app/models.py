@@ -1,6 +1,5 @@
 import config.factory as CF
 
-
 class UserProfile(CF.db.Model):
     __tablename__ = 'user_profile'
 
@@ -8,12 +7,11 @@ class UserProfile(CF.db.Model):
     rooms = CF.db.relationship("Room", back_populates="user_profile")
 
     def update(self, new_dict):
-        """Method to update all fields, given a dict with values for said fields. 
-        New fields must follow this naming convention: new_example_field"""
+        """Method to update all fields, given a dict with values for said fields."""
         
         for key, value in new_dict.items():
-            if key[4:] in self.__dict__.keys():
-                setattr(self, key[4:], value)
+            if key in self.__dict__.keys():
+                setattr(self, key, value)
         return self
 
     def __repr__(self):
@@ -33,12 +31,11 @@ class Room(CF.db.Model):
     lights = CF.db.relationship("Light", back_populates="room")
 
     def update(self, new_dict):
-        """Method to update all fields, given a dict with values for said fields. 
-        New fields must follow this naming convention: new_example_field"""
+        """Method to update all fields, given a dict with values for said fields."""
         
         for key, value in new_dict.items():
-            if key[4:] in self.__dict__.keys():
-                setattr(self, key[4:], value)
+            if key in self.__dict__.keys():
+                setattr(self, key, value)
         return self
 
     def __repr__(self):
@@ -53,12 +50,6 @@ class Room(CF.db.Model):
                 "profile_name": self.profile_name,
                 "lights": self.lights}
 
-
-# TODO: figure out why 'id' is not a field in the "context" 
-# #https://docs.sqlalchemy.org/en/14/core/defaults.html#context-sensitive-default-functions
-# def light_name_default(context):
-#     id = str(context.get_current_parameters())#['id']
-#     return id
 class Light(CF.db.Model):
     __tablename__ = 'light'
 
@@ -69,12 +60,11 @@ class Light(CF.db.Model):
     room = CF.db.relationship("Room", back_populates="lights")
 
     def update(self, new_dict):
-        """Method to update all fields, given a dict with values for said fields. 
-        New fields must follow this naming convention: new_example_field"""
+        """Method to update all fields, given a dict with values for said fields."""
         
         for key, value in new_dict.items():
-            if key[4:] in self.__dict__.keys():
-                setattr(self, key[4:], value)
+            if key in self.__dict__.keys():
+                setattr(self, key, value)
         return self
 
     def __repr__(self):
