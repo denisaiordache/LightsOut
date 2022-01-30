@@ -17,8 +17,8 @@ def populate_db(app, db):
     room1.lights = [light1, light2]
     profile1.rooms = [room1, room2]
     with app.app_context():
-        db.session.add(profile1)
-        db.session.add(profile2)
+        #db.session.add(profile1)
+        #db.session.add(profile2)
         db.session.commit()
 
 if __name__ == "__main__":

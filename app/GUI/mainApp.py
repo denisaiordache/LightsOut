@@ -1,6 +1,7 @@
 import tkinter as tk
 from roomsView import ScrollableFrame
 from createProfileFrame import CreateProfileFrame
+from updateProfile import UpdateProfileFrame
 from PIL import ImageTk, Image
 
 
@@ -39,8 +40,14 @@ class App(tk.Tk):
                                      relief='flat',
                                      activebackground="#aa872e", compound="left", width=30, command=self.showMyRooms)
 
-        self.roomsButton.pack(ipadx=5, ipady=5, fill='x')
+        self.roomsButton.pack(pady=10,ipadx=5, ipady=5, fill='x')
 
+        #Button for view/update profile
+        self.profileButton = tk.Button(self.menu, text='My Profile', background="#d8ab3a",
+                                     relief='flat',
+                                     activebackground="#aa872e", compound="left", width=30, command=self.showUpdateProfile)
+
+        self.profileButton.pack(pady=10,ipadx=5, ipady=5, fill='x')
 
 
         # starting frame
@@ -55,6 +62,11 @@ class App(tk.Tk):
     def showCreateProfile(self):
         self.frame.destroy()
         self.frame = CreateProfileFrame(self)
+        self.frame.pack(side= 'right',fill="both", expand=1)
+
+    def showUpdateProfile(self):
+        self.frame.destroy()
+        self.frame = UpdateProfileFrame(self)
         self.frame.pack(side= 'right',fill="both", expand=1)
 
 if __name__ == "__main__":
