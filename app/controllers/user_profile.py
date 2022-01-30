@@ -3,13 +3,22 @@ import models
 import config.factory as CF
 
 def create_user_profile(profile_name):
+
+    print(request)
     data = request.get_json()
     data["profile_name"] = profile_name
+
+
     if data:
         try:
             if models.UserProfile.query.filter_by(profile_name=data["profile_name"]).first():
                 raise Exception("That profile name already exists")
-            up = models.UserProfile(profile_name=data["profile_name"])
+            up = models.UserProfile(profile_name=data["profile_name"],
+                                    wake_up_hour = data["wake_up_hour"],
+                                    sleep_hour = data["sleep_hour"],
+                                    timer = data["timer"],
+                                    same_as_outside_lights = data["same_as_outside_lights"])
+
             CF.db.session.add(up)
             CF.db.session.commit()
             result = models.UserProfile.query.filter_by(profile_name=data["profile_name"]).first()

@@ -4,6 +4,11 @@ class UserProfile(CF.db.Model):
     __tablename__ = 'user_profile'
 
     profile_name = CF.db.Column(CF.db.String, primary_key=True)
+    wake_up_hour = CF.db.Column(CF.db.String)
+    sleep_hour = CF.db.Column(CF.db.String)
+    timer =  CF.db.Column(CF.db.Float)
+    same_as_outside_lights = CF.db.Column(CF.db.Boolean)
+
     rooms = CF.db.relationship("Room", back_populates="user_profile", cascade="all, delete-orphan")
 
     def update(self, new_dict):
@@ -21,6 +26,10 @@ class UserProfile(CF.db.Model):
 
     def json(self):
         return {"profile_name": self.profile_name,
+                "wake_up_hour":self.wake_up_hour,
+                "sleep_hour":self.sleep_hour,
+                "timer":self.timer,
+                "same_as_outside_lights":self.same_as_outside_lights,
                 "rooms": [x.json() for x in self.rooms]}
 
 
@@ -29,7 +38,7 @@ class Room(CF.db.Model):
 
     id = CF.db.Column(CF.db.Integer, primary_key=True)
     name = CF.db.Column(CF.db.String(100), default="Room #")
-    profile_name = CF.db.Column(CF.db.Integer, CF.db.ForeignKey('user_profile.profile_name'))
+    profile_name = CF.db.Column(CF.db.String, CF.db.ForeignKey('user_profile.profile_name'))
     user_profile = CF.db.relationship("UserProfile", back_populates="rooms")
     lights = CF.db.relationship("Light", back_populates="room", cascade="all, delete-orphan")
 
