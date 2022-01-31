@@ -69,6 +69,7 @@ class Light(CF.db.Model):
     id = CF.db.Column(CF.db.Integer, primary_key=True)
     name = CF.db.Column(CF.db.String(100), default="Light #")
     intensity = CF.db.Column(CF.db.Float, default=0.0)
+    #color = CF.db.Column(CF.db.String(20))
     room_id = CF.db.Column(CF.db.Integer, CF.db.ForeignKey('room.id'))
     room = CF.db.relationship("Room", back_populates="lights")
 

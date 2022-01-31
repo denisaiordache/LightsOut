@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
+import requests
 from PIL import ImageTk, Image
 from ttkwidgets import TickScale
 from tkinter import colorchooser
@@ -40,7 +42,7 @@ class ScrollableFrame(ttk.Frame):
 class MyRoomsFrame(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)
-
+        self.cont = container
         s = ttk.Style()
         s.configure('MyRoomsFrame.TFrame') #, background='#FAE3E3')
         self.configure(style='MyRoomsFrame.TFrame')
@@ -53,6 +55,7 @@ class MyRoomsFrame(ttk.Frame):
                                    font=("Microsoft JhengHei UI", 22, 'bold'), fg="black")
         self.titleLabel.grid(column=1, row=0, pady=(10, 10))
 
+        #add room elements
         self.roomName = tk.Label(self, text="Add room",font=("Microsoft JhengHei UI", 15, 'bold'), fg="black")
         self.roomName.grid(column=1,row=1,pady=(10,10))
 
@@ -60,18 +63,45 @@ class MyRoomsFrame(ttk.Frame):
         self.roomBox.grid(column=1,row=2,pady=(10,10))
 
         self.addIcon = ImageTk.PhotoImage(Image.open("Assets/plus.jpg").resize((20,20)))
-        self.addButton = tk.Button(self,image=self.addIcon)
+        self.addButton = tk.Button(self,image=self.addIcon,relief='flat',command=self.createRoom)
         self.addButton.grid(column=1,row=2,pady=(10,10),padx=(250,0))
 
+        self.username = 'Denisa'
+        res = self.get_user(self.username)
+
         self.rooms = []
-        for i in range(2):
+        self.roomsData = res['user_profile']['rooms']
+        for i in range(len(self.roomsData)):
             self.rooms.append(None)
-            self.rooms[i] = RoomFrame(self, i + 3)
+            self.rooms[i] = RoomFrame(self, i + 3, self.roomsData[i])
+
+
+
+    def createRoom(self):
+        roomName = self.roomBox.get()
+
+        data = {
+            'id':None,
+            'name':roomName,
+            'profile_name':self.username
+        }
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        response = requests.post('http://127.0.0.1:5000/room/1', json=data, headers=headers)
+        print(response, response.content)
+
+
+
+    def get_user(self,username):
+        response = requests.get(url='http://127.0.0.1:5000/user_profile/' + str(username))
+        return response.json()
+
+
+
 
 
 
 class RoomFrame(ttk.Frame):
-    def __init__(self, container, index):
+    def __init__(self, container, index, room):
         super().__init__(container)
 
         s = ttk.Style()
@@ -86,7 +116,7 @@ class RoomFrame(ttk.Frame):
         # numele camerei
 
         s.configure(style='Title.TLabel', background="white", foreground = "grey")
-        self.title = ttk.Label(self, text='Livingroom', style='Title.TLabel', wraplength=700,
+        self.title = ttk.Label(self, text=room['name'], style='Title.TLabel', wraplength=700,
                                font=("Microsoft JhengHei UI", 16, "bold"))
         self.title.grid(columnspan=2, row=0, padx=(20, 20), pady=(0, 20),sticky="w")
 
@@ -98,7 +128,8 @@ class RoomFrame(ttk.Frame):
         for i in range(10):
             var = tk.IntVar(value=0)
             self.vars.append(var)
-            self.lightsList.append(tk.Checkbutton(self, text="Light " + str(i + 1),fg="black", bg='white',activebackground="grey", variable=var, onvalue=1, offvalue=0, command=self.printLightsState))
+            self.lightsList.append(tk.Checkbutton(self, text="Light " + str(i + 1),fg="black", bg='white',activebackground="grey",
+                                                  variable=var, onvalue=1, offvalue=0, command=self.printLightsState))
             self.lightsList[i].grid(column=0, row=i + 1, sticky='W', pady=5)
 
         # butoane
@@ -142,6 +173,16 @@ class RoomFrame(ttk.Frame):
         #label for displaying color
         self.choosedColor = tk.Label(self, background = self.color_code, width = 9, height = 2)
         self.choosedColor.grid(column =1, row=7, padx=(450, 0), ipadx=5, ipady=5)
+
+        self.lightName = tk.Label(self, text="Add light",font=("Microsoft JhengHei UI", 15, 'bold'), fg="black")
+        self.lightName.grid(column=1,row=8,pady=(20,20),padx=(85,0),rowspan=2)
+
+        self.lightBox = tk.Entry(self, justify="center", width=25)
+        self.lightBox.grid(column=1,row=10,pady=(10,10),padx=(200,0),ipadx=5, ipady=5,rowspan=2)
+
+        self.addIcon = ImageTk.PhotoImage(Image.open("Assets/plus.jpg").resize((20,20)))
+        self.addButton = tk.Button(self,image=self.addIcon,relief='flat')
+        self.addButton.grid(column=1,row=10,pady=(10,10),padx=(480,0),ipady=5)
 
 
     def chooseColor(self):

@@ -2,13 +2,12 @@ from flask import request
 import models
 import config.factory as CF
 
-def create_room(room_id):
+def create_room():
     data = request.get_json()
-    data["id"] = room_id
     if data:
         try:
-            if models.Room.query.filter_by(id=room_id).first():
-                raise Exception("That id already exists")
+            #if models.Room.query.filter_by(id=room_id).first():
+             #   raise Exception("That id already exists")
 
             room = models.Room(id=data["id"],
                                 name=data["name"],
@@ -24,8 +23,8 @@ def create_room(room_id):
                 CF.db.session.add(room)
 
             CF.db.session.commit()
-            result = models.Room.query.filter_by(id=room_id).first()
-            return {"created room" : result.json()}, 201
+            #result = models.Room.query.filter_by(id=room_id).first()
+            return {"message" : "successfully created room"}, 201
         except Exception as e:
             return {"error": str(e)}, 400
 
