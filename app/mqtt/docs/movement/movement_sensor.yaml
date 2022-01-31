@@ -1,0 +1,40 @@
+asyncapi: 2.0.0
+info:
+  title: Movement Sensor
+  version: '1.0.0'
+  description: |
+    Monitors the user's current location.
+
+servers:
+  production:
+    url: broker.emqx.io
+    protocol: mqtt
+    description: MQTT broker
+
+channels:
+  user/changedRoom:
+    subscribe:
+      operationId: emitUserChangedRoomEvent
+      message:
+        $ref : '#/components/messages/UserChangedRoom'
+
+components:
+  messages:
+    UserChangedRoom:
+      name: UserChangedRoom
+      title: User changed rooms event
+      summary: Inform about a user triggering a motion sensor
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserChangedRoomPayload'
+
+  schemas:
+    UserChangedRoomPayload:
+      type: object
+      properties:
+        previousRoomId:
+          type: integer
+          description: "DB id of the room the user exited"
+        nextRoomId:
+          type: integer
+          description: "DB id of the room the user entered"
