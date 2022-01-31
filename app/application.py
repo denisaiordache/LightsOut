@@ -10,7 +10,7 @@ app, db = CF.app, CF.db
 
 if app.config["RESET_DATABASE_ON_STARTUP"]:
     DB_OPS.create_db(app, db)
-DB_OPS.populate_db(app, db)
+    DB_OPS.populate_db(app, db)
 
 #routing
 @app.route("/")
