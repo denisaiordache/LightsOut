@@ -53,11 +53,15 @@ class MyRoomsFrame(ttk.Frame):
                                    font=("Microsoft JhengHei UI", 22, 'bold'), fg="black")
         self.titleLabel.grid(column=1, row=0, pady=(10, 10))
 
-        self.roomName = tk.Label(self, text="Room name",font=("Microsoft JhengHei UI", 15, 'bold'), fg="black")
+        self.roomName = tk.Label(self, text="Add room",font=("Microsoft JhengHei UI", 15, 'bold'), fg="black")
         self.roomName.grid(column=1,row=1,pady=(10,10))
 
         self.roomBox = tk.Entry(self, justify="center", width=25)
         self.roomBox.grid(column=1,row=2,pady=(10,10))
+
+        self.addIcon = ImageTk.PhotoImage(Image.open("Assets/plus.jpg").resize((20,20)))
+        self.addButton = tk.Button(self,image=self.addIcon)
+        self.addButton.grid(column=1,row=2,pady=(10,10),padx=(250,0))
 
         self.rooms = []
         for i in range(2):
