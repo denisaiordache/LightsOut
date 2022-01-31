@@ -45,7 +45,7 @@ def room_route(id):
     elif request.method == "DELETE":
         return CROOM.delete_room(id)
     elif request.method == "POST":
-        return CROOM.create_room(id)
+        return CROOM.create_room()
 
 @app.route('/light/', defaults={'id': -1})
 @app.route("/light/<int:id>", methods=["GET", "PUT", "POST", "DELETE"])
