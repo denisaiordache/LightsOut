@@ -59,7 +59,9 @@ class MyRoomsFrame(ttk.Frame):
         self.roomName = tk.Label(self, text="Add room",font=("Microsoft JhengHei UI", 15, 'bold'), fg="black")
         self.roomName.grid(column=1,row=1,pady=(10,10))
 
-        self.roomBox = tk.Entry(self, justify="center", width=25)
+        self.room_value = tk.StringVar()
+
+        self.roomBox = tk.Entry(self, justify="center",textvariable=self.room_value, width=25)
         self.roomBox.grid(column=1,row=2,pady=(10,10))
 
         self.addIcon = ImageTk.PhotoImage(Image.open("Assets/plus.jpg").resize((20,20)))
@@ -88,16 +90,11 @@ class MyRoomsFrame(ttk.Frame):
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         response = requests.post('http://127.0.0.1:5000/room/1', json=data, headers=headers)
         print(response, response.content)
-
-
+        self.room_value.set("")
 
     def get_user(self,username):
         response = requests.get(url='http://127.0.0.1:5000/user_profile/' + str(username))
         return response.json()
-
-
-
-
 
 
 class RoomFrame(ttk.Frame):
@@ -166,23 +163,23 @@ class RoomFrame(ttk.Frame):
         self.selectColorButton = tk.Button(self, text='Select color', background="#F5F5F5", relief='flat',
                                                   activebackground="#E8E8E8", image=self.colorChooser, compound="left",
                                                   command=self.chooseColor)
-        self.selectColorButton.grid(column=1, row=7, padx=(105, 0), ipadx=5, ipady=5)
+        self.selectColorButton.grid(column=1, row=6, padx=(105, 0), ipadx=5, ipady=5, rowspan=2)
 
         self.color_code = "#000040"
 
         #label for displaying color
         self.choosedColor = tk.Label(self, background = self.color_code, width = 9, height = 2)
-        self.choosedColor.grid(column =1, row=7, padx=(450, 0), ipadx=5, ipady=5)
+        self.choosedColor.grid(column =1, row=6, padx=(450, 0), ipadx=5, ipady=5,rowspan=2)
 
-        self.lightName = tk.Label(self, text="Add light",font=("Microsoft JhengHei UI", 15, 'bold'), fg="black")
-        self.lightName.grid(column=1,row=8,pady=(20,20),padx=(85,0),rowspan=2)
+        self.lightName = tk.Label(self, text="Add light",bg='white', fg="black")
+        self.lightName.grid(column=1,row=8,pady=(10,10),padx=(250,0))
 
-        self.lightBox = tk.Entry(self, justify="center", width=25)
-        self.lightBox.grid(column=1,row=10,pady=(10,10),padx=(200,0),ipadx=5, ipady=5,rowspan=2)
+        self.lightBox = tk.Entry(self, justify="center", width=25, background='lightgrey')
+        self.lightBox.grid(column=1,row=9,pady=(10,10),padx=(230,0),ipadx=5, ipady=5,rowspan=2)
 
         self.addIcon = ImageTk.PhotoImage(Image.open("Assets/plus.jpg").resize((20,20)))
-        self.addButton = tk.Button(self,image=self.addIcon,relief='flat')
-        self.addButton.grid(column=1,row=10,pady=(10,10),padx=(480,0),ipady=5)
+        self.addButton = tk.Button(self,image=self.addIcon,relief='flat',background='white')
+        self.addButton.grid(column=1,row=9,pady=(10,10),padx=(520,0),ipady=5,rowspan=2)
 
 
     def chooseColor(self):
