@@ -11,6 +11,7 @@ def create_light(light_id):
                 raise Exception("That id already exists")
 
             light = models.Light(id=data["id"],
+                                on=data["on"],
                                 intensity=data["intensity"], 
                                 name=data["name"],
                                 room_id=data["room_id"])

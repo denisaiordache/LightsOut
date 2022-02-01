@@ -27,6 +27,7 @@ class UserProfile(CF.db.Model):
 
     def json(self):
         return {"profile_name": self.profile_name,
+                "is_active": self.is_active,
                 "wake_up_hour":self.wake_up_hour,
                 "sleep_hour":self.sleep_hour,
                 "timer":self.timer,
@@ -68,6 +69,7 @@ class Light(CF.db.Model):
     __tablename__ = 'light'
 
     id = CF.db.Column(CF.db.Integer, primary_key=True)
+    on = CF.db.Column(CF.db.Boolean, default=False)
     name = CF.db.Column(CF.db.String(100), default="Light #")
     intensity = CF.db.Column(CF.db.Float, default=0.0)
     #color = CF.db.Column(CF.db.String(20))
@@ -86,6 +88,7 @@ class Light(CF.db.Model):
     def __repr__(self):
         return f"<id: {self.id}> \
                 <name: {self.name}> \
+                <on: {self.on}> \
                 <intensity: {self.intensity}> \
                 <room_id: {self.room_id}>"
 
@@ -93,5 +96,6 @@ class Light(CF.db.Model):
         return {"id": self.id,
                 "name": self.name,
                 "intensity": self.intensity,
-                "room_id": self.room_id}
+                "room_id": self.room_id,
+                "on": self.on}
 

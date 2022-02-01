@@ -14,6 +14,11 @@ def getDate():
     date = dt.date.today()
     return date
 
+def getTimestamp():
+    #wake-up-hour: sunrise for the user's current location
+    #("10:00", "12:00")
+    pass
+
 if __name__ == "__main__":
     print(getLatLong(), getDate())
 
