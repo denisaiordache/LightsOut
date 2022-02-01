@@ -32,6 +32,9 @@ components:
     UserChangedRoomPayload:
       type: object
       properties:
+        profileName:
+          type: string
+          description: "Name of the currently active profile"
         previousRoomId:
           type: integer
           description: "DB id of the room the user exited"

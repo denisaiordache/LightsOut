@@ -1,8 +1,8 @@
 import time
 import random
-from paho.mqtt import client as mqtt_client
 import mqtt_utilities as mu
 import requests as req
+import json
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 url = 'http://127.0.0.1:5000/user_profile/'
@@ -13,9 +13,11 @@ def publish(client):
         room_ids = []
 
         #retrieve active profile
+        
         response = req.get(url=url, headers=headers)
         for profile in response.json()["user_profiles"]:
             if profile["is_active"]:
+                activeProfileName = profile["profile_name"]
                 #retrieve all room ids of active profile
                 for room in profile["rooms"]:
                     room_ids.append(room["id"])
@@ -25,8 +27,9 @@ def publish(client):
         index1, index2 = random.sample(range(0, len(room_ids)), 2)
         previousRoomId = room_ids[index1]
         nextRoomId = room_ids[index2]
-        msg = {"previousRoomId": previousRoomId, "nextRoomId": nextRoomId}
-        print(msg)
+        msg = json.dumps({"previousRoomId": previousRoomId, 
+                            "nextRoomId": nextRoomId,
+                            "profile_name": activeProfileName})
         result = client.publish(mu.TOPIC_MOVEMENT, msg)
         status = result[0]
         if status == 0:
