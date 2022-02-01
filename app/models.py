@@ -4,6 +4,7 @@ class UserProfile(CF.db.Model):
     __tablename__ = 'user_profile'
 
     profile_name = CF.db.Column(CF.db.String, primary_key=True)
+    is_active = CF.db.Column(CF.db.Boolean, default=True)
     wake_up_hour = CF.db.Column(CF.db.String)
     sleep_hour = CF.db.Column(CF.db.String)
     timer =  CF.db.Column(CF.db.Float)
