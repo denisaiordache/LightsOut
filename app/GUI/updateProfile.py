@@ -7,7 +7,7 @@ import requests
 
 class UpdateProfileFrame(ttk.Frame):
     def __init__(self, container):
-        self.username = "Denisa"
+
         super().__init__(container)
 
         self.columnconfigure(0, weight=1)
@@ -41,13 +41,14 @@ class UpdateProfileFrame(ttk.Frame):
         self.timer_value = tk.DoubleVar()
         self.same_as_outside_lights_value = tk.BooleanVar()
 
-        res = self.get_user('Denisa')
+        res = self.getCurrentUser()
+        self.username = res['profile_name']
 
-        self.profile_name_value.set(res['user_profile']['profile_name'])
-        self.wake_up_hour_value.set(res['user_profile']['wake_up_hour'])
-        self.sleep_hour_value.set(res['user_profile']['sleep_hour'])
-        self.timer_value.set(res['user_profile']['timer'])
-        self.same_as_outside_lights_value.set(res['user_profile']['same_as_outside_lights'])
+        self.profile_name_value.set(res['profile_name'])
+        self.wake_up_hour_value.set(res['wake_up_hour'])
+        self.sleep_hour_value.set(res['sleep_hour'])
+        self.timer_value.set(res['timer'])
+        self.same_as_outside_lights_value.set(res['same_as_outside_lights'])
 
         # boxes
         self.profile_name_box = tk.Entry(self, textvariable=self.profile_name_value, justify="center", width=25)
@@ -109,6 +110,15 @@ class UpdateProfileFrame(ttk.Frame):
                                 json={},
                                 headers=headers
                                 )
+    def getCurrentUser(self):
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        response = requests.get('http://127.0.0.1:5000/user_profile/-1', json={}, headers=headers)
+        print(response, response.content)
+        users = response.json()['user_profiles']
+
+        for user in users:
+            if user['is_active'] == True:
+                return user
 
 
 

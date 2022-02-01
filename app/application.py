@@ -60,7 +60,7 @@ def light_route(id):
     elif request.method == "DELETE":
         return CLIGHT.delete_light(id)
     elif request.method == "POST":
-        return CLIGHT.create_light(id)
+        return CLIGHT.create_light()
 
 if __name__ == "__main__":
     app.run() 
