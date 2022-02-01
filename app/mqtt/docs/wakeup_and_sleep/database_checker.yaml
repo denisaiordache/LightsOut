@@ -1,0 +1,43 @@
+asyncapi: 2.0.0
+info:
+  title: Database Checker
+  version: '1.0.0'
+  description: |
+    Checks whether the sleep/wake-up hours have changed for the active user profile.
+
+servers:
+  production:
+    url: broker.emqx.io
+    protocol: mqtt
+    description: MQTT broker
+
+channels:
+  user/changedHour:
+    subscribe:
+      operationId: emitUserChangedHourEvent
+      message:
+        $ref : '#/components/messages/UserChangedHour'
+
+components:
+  messages:
+    UserChangedHour:
+      name: UserChangedHour
+      title: Wake-up / Sleep hours changed event
+      summary: Inform about a change in the current profile changing its wake-up / sleep hour
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserChangedHourPayload'
+
+  schemas:
+    UserChangedHourPayload:
+      type: object
+      properties:
+        profileName:
+          type: string
+          description: "Name of the currently active profile"
+        newSleepHour:
+          type: string
+          description: "The updated time the user's lights are supposed to turn off"
+        newWakeUpHour:
+          type: string
+          description: "The updated time the user's lights are supposed to turn on"

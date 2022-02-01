@@ -1,0 +1,61 @@
+asyncapi: 2.0.0
+info:
+  title: Internal Clock
+  version: '1.0.0'
+  description: |
+    Checks whether the current time is equal to the sleep/wake-up hours.
+
+servers:
+  production:
+    url: broker.emqx.io
+    protocol: mqtt
+    description: MQTT broker
+
+channels:
+  user/changedHour:
+    publish:
+      operationId: onUserChangedHour
+      message:
+        $ref : '#/components/messages/UserChangedHour'
+    subscribe:
+      operationId: emitSleepOrWakeUpEvent
+      message:
+        $ref : '#/components/messages/SleepOrWakeUp'
+
+
+components:
+  messages:
+    UserChangedHour:
+      name: UserChangedHour
+      title: Wake-up / Sleep hours changed event
+      summary: Inform about a change in the current profile changing its wake-up / sleep hour
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserChangedHourPayload'
+    SleepOrWakeUp:
+      name: SleepOrWakeUp
+      title: Wake-up / Sleep event
+      summary: Inform about the current time being equal to the wake-up / sleep hour
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SleepOrWakeUpPayload'
+
+  schemas:
+    UserChangedHourPayload:
+      type: object
+      properties:
+        profileName:
+          type: string
+          description: "Name of the currently active profile"
+        newSleepHour:
+          type: string
+          description: "The updated time the user's lights are supposed to turn off"
+        newWakeUpHour:
+          type: string
+          description: "The updated time the user's lights are supposed to turn on"
+    SleepOrWakeUpPayload:
+      type: object
+      properties:
+        isSleepEvent:
+          type: boolean
+          description: "True if the event is Sleep, False if it is Wake-up"

@@ -1,0 +1,37 @@
+asyncapi: 2.0.0
+info:
+  title: Light Intensity Shifter
+  version: '1.0.0'
+  description: |
+    Shifts the intensity of the lights in a room up or down.
+
+servers:
+  production:
+    url: broker.emqx.io
+    protocol: mqtt
+    description: MQTT broker
+
+channels:
+  user/changedHour:
+    publish:
+      operationId: onSleepOrWakeUp
+      message:
+        $ref : '#/components/messages/SleepOrWakeUp'
+
+components:
+  messages:
+    SleepOrWakeUp:
+      name: SleepOrWakeUp
+      title: Wake-up / Sleep event
+      summary: Inform about the current time being equal to the wake-up / sleep hour
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SleepOrWakeUpPayload'
+
+  schemas:
+    SleepOrWakeUpPayload:
+      type: object
+      properties:
+        isSleepEvent:
+          type: boolean
+          description: "True if the event is Sleep, False if it is Wake-up"
