@@ -72,7 +72,7 @@ class Light(CF.db.Model):
     on = CF.db.Column(CF.db.Boolean, default=False)
     name = CF.db.Column(CF.db.String(100), default="Light #")
     intensity = CF.db.Column(CF.db.Float, default=0.0)
-    #color = CF.db.Column(CF.db.String(20))
+    color = CF.db.Column(CF.db.String(20), default="#FFFF00")
     room_id = CF.db.Column(CF.db.Integer, CF.db.ForeignKey('room.id'))
     room = CF.db.relationship("Room", back_populates="lights")
 
@@ -89,6 +89,7 @@ class Light(CF.db.Model):
         return f"<id: {self.id}> \
                 <name: {self.name}> \
                 <on: {self.on}> \
+                <color: {self.color}> \
                 <intensity: {self.intensity}> \
                 <room_id: {self.room_id}>"
 
@@ -97,5 +98,6 @@ class Light(CF.db.Model):
                 "name": self.name,
                 "intensity": self.intensity,
                 "room_id": self.room_id,
+                "color": self.color,
                 "on": self.on}
 

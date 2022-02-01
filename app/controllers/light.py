@@ -2,16 +2,16 @@ from flask import request
 import models
 import config.factory as CF
 
-def create_light(light_id):
+def create_light():
     data = request.get_json()
-    data["id"] = light_id
+
     if data:
         try:
-            if models.Light.query.filter_by(id=light_id).first():
-                raise Exception("That id already exists")
+
 
             light = models.Light(id=data["id"],
                                 on=data["on"],
+                                color=data["color"],
                                 intensity=data["intensity"], 
                                 name=data["name"],
                                 room_id=data["room_id"])
@@ -25,8 +25,8 @@ def create_light(light_id):
             else:
                 CF.db.session.add(light)
             CF.db.session.commit()
-            result = models.Light.query.filter_by(id=light_id).first()
-            return {"created light" : result.json()}, 201
+
+            return {"message" : "successfully created light"}, 201
         except Exception as e:
             return {"error": str(e)}, 400
 
