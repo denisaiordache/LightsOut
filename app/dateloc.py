@@ -1,24 +1,42 @@
-import geocoder as geo #https://geocoder.readthedocs.io/providers/IPInfo.html
+import geocoder as geo  # https://geocoder.readthedocs.io/providers/IPInfo.html
 import datetime as dt
-
-#TODO: for figuring out sunset/sunrise: https://sunrise-sunset.org/api (needs converting from UTC to local time https://stackoverflow.com/questions/68664644/how-can-i-convert-from-utc-time-to-local-time-in-python)
+import urllib.request, json
+import time
 
 def getLatLong():
     gloc = geo.ip('me')
-    #TODO: make pop up appear and have user enter their address (country/city) since ip look-up failed
+    # TODO: make pop up appear and have user enter their address (country/city) since ip look-up failed
     if not gloc.ok:
-        pass #https://geocoder.readthedocs.io/providers/HERE.html
-    return gloc.latlng 
+        pass  # https://geocoder.readthedocs.io/providers/HERE.html
+    return gloc.latlng
+
 
 def getDate():
     date = dt.date.today()
     return date
 
-def getTimestamp():
-    #wake-up-hour: sunrise for the user's current location
-    #("10:00", "12:00")
-    pass
+
+def getCity():
+    print(geo.ip('me'))
+    date = geo.ipinfo()
+    print(date)
+    return date.city
+
+def getTimezone():
+    offset = time.timezone if (time.localtime().tm_isdst == 0) else time.altzone
+    offset = offset / 60 / 60 * -1
+    return str(int(offset))
+
+def getDefaults():
+    latlong=getLatLong()
+    link="https://api.sunrise-sunset.org/json?"+"lat="+str(latlong[0])+"&"+"lng="+str(latlong[1])
+    tz=getTimezone()
+    data = json.loads(urllib.request.urlopen(link).read().decode())
+    sunrisehour = str(int(data['results']['sunrise'][0])+int(tz)) + data['results']['sunrise'][1:]
+    #print(sunrisehour)
+    sunsethour = str(int(data['results']['sunset'][0]) + int(tz)) + data['results']['sunset'][1:]
+    #print(sunsethour)
+    return (sunrisehour,sunsethour)
 
 if __name__ == "__main__":
-    print(getLatLong(), getDate())
-
+    print(getDefaults())
