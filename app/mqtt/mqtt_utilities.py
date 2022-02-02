@@ -4,9 +4,10 @@ from paho.mqtt import client as mqtt_client
 BROKER = 'broker.emqx.io'
 PORT = 1883
 TOPIC_MOVEMENT = "user/changedRoom"
+TOPIC_HOURCHANGE = "user/changedHour"
 # generate client ID with pub prefix randomly
 def genId():
-    return f'python-mqtt-{random.randint(0, 1000)}'
+    return f'lights-out-{random.randint(0, 1000)}'
 USERNAME = 'LightsOut'
 PASSWORD = 'LightsOut'
 

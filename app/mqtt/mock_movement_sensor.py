@@ -8,12 +8,11 @@ headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 url = 'http://127.0.0.1:5000/user_profile/'
 
 def publish(client):
-    msg_count = 0
+
     while True:
         room_ids = []
 
         #retrieve active profile
-        
         response = req.get(url=url, headers=headers)
         for profile in response.json()["user_profiles"]:
             if profile["is_active"]:
@@ -21,6 +20,7 @@ def publish(client):
                 #retrieve all room ids of active profile
                 for room in profile["rooms"]:
                     room_ids.append(room["id"])
+                break
 
         #send message with two random (different) room ids
         time.sleep(3)
@@ -36,7 +36,6 @@ def publish(client):
             print(f"Sent `{msg}` to topic `{mu.TOPIC_MOVEMENT}`")
         else:
             print(f"Failed to send message to topic {mu.TOPIC_MOVEMENT}")
-        msg_count += 1
 
 def run():
     client = mu.connect_mqtt()[0]
