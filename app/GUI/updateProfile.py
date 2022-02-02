@@ -4,6 +4,8 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 import requests
 
+from app.dateloc import getDefaults
+
 
 class UpdateProfileFrame(ttk.Frame):
     def __init__(self, container):
@@ -66,7 +68,8 @@ class UpdateProfileFrame(ttk.Frame):
         self.check_box = tk.Checkbutton( self, text="Same as outside lights",
                                          variable=self.same_as_outside_lights_value,
                                          onvalue=1, offvalue=0,
-                                        font="Cambria")
+                                        font="Cambria",
+                                         command=self.getCheckboxValue)
         self.check_box.grid(row=6, column=1)
 
         self.B = tk.Button(self, text="Update Profile", bg='#28a745',activebackground="#25873c",fg="white",activeforeground="white",
@@ -82,12 +85,21 @@ class UpdateProfileFrame(ttk.Frame):
         style_object = ttk.Style()
         style_object.configure("BW.TLabel", font=('Cambria', 12))
 
+    def getCheckboxValue(self):
+        val = self.same_as_outside_lights_value.get()
+        if val == 1:
+            first, second = getDefaults()
+            self.wake_up_hour_value.set(first)
+            self.sleep_hour_value.set(second)
+
+
     def handleUpdate(self):
         data_set = {"profile_name": self.profile_name_box.get(),
                     "wake_up_hour": self.wake_up_hour_box.get(),
                     "sleep_hour" : self.sleep_hour_box.get(),
                     "timer": self.timer_box.get(),
-                    "same_as_outside_lights":self.same_as_outside_lights_value.get()
+                    "same_as_outside_lights":self.same_as_outside_lights_value.get(),
+                    "is_active": True
                     }
 
 
