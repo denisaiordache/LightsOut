@@ -1,4 +1,7 @@
 import tkinter as tk
+
+import requests
+
 from roomsView import ScrollableFrame
 from createProfileFrame import CreateProfileFrame
 from updateProfile import UpdateProfileFrame
@@ -9,6 +12,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        self.userIsLogged = None
         self.geometry("1400x840")
         self.resizable(False, False)
         self.config(bg="#FAE3E3")
@@ -33,7 +37,7 @@ class App(tk.Tk):
         self.menuLabel = tk.Label(self.buttons, text='Menu',image=self.menuIcon,compound="left", bg='#003459', fg="#d8ab3a", font=("Microsoft JhengHei UI", 15, 'bold'),anchor='w')
         self.menuLabel.grid(column=0,row=0, padx=5,ipadx=10, ipady=10,sticky='w')
 
-        # Button for create profile
+        # Button for refresh
         self.refreshButton = tk.Button(self.buttons, image=self.refreshIcon, background="#003459",
                                      relief='flat',
                                      activebackground="#aa872e", compound="left", width=20,
@@ -41,12 +45,12 @@ class App(tk.Tk):
         self.refreshButton.grid(column=1,row=0,ipady=5,ipadx=5,padx=(0,5),sticky='e')
 
         # Button for create profile
-        self.roomsButton = tk.Button(self.buttons, text='Create Profile', background="#d8ab3a",
+        self.createButton = tk.Button(self.buttons, text='Create Profile', background="#d8ab3a",
                                      relief='flat',
                                      activebackground="#aa872e", compound="left", width=30,
                                      command=self.showCreateProfile)
 
-        self.roomsButton.grid(column=0,row=1,columnspan=2,pady=5,ipadx=5, ipady=5)
+        self.createButton.grid(column=0,row=1,columnspan=2,pady=5,ipadx=5, ipady=5)
 
         # Button for rooms
         self.roomsButton = tk.Button(self.buttons, text='My Rooms', background="#d8ab3a",
@@ -62,10 +66,15 @@ class App(tk.Tk):
 
         self.profileButton.grid(column=0,row=3,columnspan=2,pady=5,ipadx=5, ipady=5)
 
-
+        self.hidePages()
         # starting frame
-        self.frame = ScrollableFrame(self)
+        self.frame = None
+        if self.userIsLogged:
+            self.frame = ScrollableFrame(self)
+        else:
+            self.frame = CreateProfileFrame(self)
         self.frame.pack(side= 'right',fill="both", expand=1)
+
 
     def showMyRooms(self):
         self.frame.destroy()
@@ -84,17 +93,51 @@ class App(tk.Tk):
 
     def refresh(self):
         name = self.frame.__class__.__name__
-
+        self.hidePages()
         self.frame.destroy()
 
         if name == 'ScrollableFrame':
             self.frame = ScrollableFrame(self)
         elif name == 'UpdateProfileFrame':
-            self.frame = UpdateProfileFrame(self)
+            if self.userIsLogged:
+                self.frame = UpdateProfileFrame(self)
+            else:
+                self.frame = CreateProfileFrame(self)
         elif name == 'CreateProfileFrame':
-            self.frame = CreateProfileFrame(self)
+            if self.userIsLogged:
+                self.frame = UpdateProfileFrame(self)
+            else:
+                self.frame = CreateProfileFrame(self)
 
         self.frame.pack(side= 'right',fill="both", expand=1)
+
+
+    def getCurrentUser(self):
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        response = requests.get('http://127.0.0.1:5000/user_profile/-1', json={}, headers=headers)
+        print(response, response.content)
+        users = response.json()['user_profiles']
+
+        for user in users:
+            if user['is_active'] == True:
+                return user
+
+    def hidePages(self):
+        user = self.getCurrentUser()
+
+        if user is None:
+            self.userIsLogged = False
+            self.profileButton['state'] = 'disabled'
+            self.roomsButton['state'] = 'disabled'
+            self.createButton['state'] = 'normal'
+            #CreateProfile
+
+        else:
+            self.userIsLogged = True
+            self.createButton['state'] = 'disabled'
+            self.profileButton['state'] = 'normal'
+            self.roomsButton['state'] = 'normal'
+            #UpdateProfile
 
 if __name__ == "__main__":
     try:

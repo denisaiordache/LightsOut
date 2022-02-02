@@ -8,7 +8,7 @@ class UserProfile(CF.db.Model):
     wake_up_hour = CF.db.Column(CF.db.String)
     sleep_hour = CF.db.Column(CF.db.String)
     timer =  CF.db.Column(CF.db.Float)
-    same_as_outside_lights = CF.db.Column(CF.db.Boolean)
+    same_as_outside_lights = CF.db.Column(CF.db.Boolean, default= True)
 
     rooms = CF.db.relationship("Room", back_populates="user_profile", cascade="all, delete-orphan")
 
