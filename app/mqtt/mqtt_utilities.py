@@ -5,6 +5,7 @@ BROKER = 'broker.emqx.io'
 PORT = 1883
 TOPIC_MOVEMENT = "user/changedRoom"
 TOPIC_HOURCHANGE = "user/changedHour"
+TOPIC_LIGHTSHIFT = "light/shiftIntensity"
 # generate client ID with pub prefix randomly
 def genId():
     return f'lights-out-{random.randint(0, 1000)}'

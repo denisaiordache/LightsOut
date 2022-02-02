@@ -17,6 +17,7 @@ channels:
       operationId: onUserChangedHour
       message:
         $ref : '#/components/messages/UserChangedHour'
+  ligt/shiftIntensity:
     subscribe:
       operationId: emitSleepOrWakeUpEvent
       message:
