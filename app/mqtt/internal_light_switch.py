@@ -1,5 +1,3 @@
-import time
-import random
 import mqtt_utilities as mu
 import requests as req
 import json

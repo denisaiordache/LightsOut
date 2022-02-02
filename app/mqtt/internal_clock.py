@@ -1,7 +1,6 @@
 import time
 import datetime as dt
 import mqtt_utilities as mu
-import requests as req
 import json
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}

@@ -12,7 +12,7 @@ servers:
     description: MQTT broker
 
 channels:
-  user/changedHour:
+  light/shiftIntensity:
     publish:
       operationId: onSleepOrWakeUp
       message:
