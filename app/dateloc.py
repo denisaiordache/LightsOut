@@ -32,10 +32,21 @@ def getDefaults():
     link="https://api.sunrise-sunset.org/json?"+"lat="+str(latlong[0])+"&"+"lng="+str(latlong[1])
     tz=getTimezone()
     data = json.loads(urllib.request.urlopen(link).read().decode())
-    sunrisehour = str(int(data['results']['sunrise'][0])+int(tz)) + data['results']['sunrise'][1:]
-    #print(sunrisehour)
-    sunsethour = str(int(data['results']['sunset'][0]) + int(tz)) + data['results']['sunset'][1:]
-    #print(sunsethour)
+    if data['results']['sunrise'][1] == ':':
+        sunrisehour = str(int(data['results']['sunrise'][0])+int(tz)) + data['results']['sunrise'][1:]
+        #print(sunrisehour)
+    else:
+        sunrisehour = str(int(data['results']['sunrise'][0:2])+int(tz)) + data['results']['sunrise'][2:]
+        #print(sunrisehour)
+
+
+    if data['results']['sunset'][1] == ':':
+        sunsethour = str(int(data['results']['sunset'][0]) + int(tz)) + data['results']['sunset'][1:]
+        #print(sunsethour)
+    else:
+        sunrisehour = str(int(data['results']['sunset'][0:2])+int(tz)) + data['results']['sunset'][2:]
+        #print(sunrisehour)
+
     return (sunrisehour,sunsethour)
 
 if __name__ == "__main__":
