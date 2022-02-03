@@ -40,7 +40,7 @@
   "paths": {
     "/user_profile/<string:profile_name>": {
       "get": {
-        "summary": "Endpoint for getting an user profile",
+        "summary": "Endpoint for getting a user profile",
         "operationId": "get_user_profile",
         "description": "Get user profile",
         "parameters": [
@@ -72,7 +72,7 @@
           }
       },
       "put": {
-        "summary": "Endpoint for updating an user profile",
+        "summary": "Endpoint for updating a user profile",
         "operationId": "update_user_profile",
         "description": "Update user profile",
         "parameters": [
@@ -104,7 +104,7 @@
           }
       },
       "post": {
-        "summary": "Endpoint for creating an user profile",
+        "summary": "Endpoint for creating a user profile",
         "operationId": "create_user_profile",
         "description": "Create user profile",
         "parameters": [
@@ -136,7 +136,7 @@
           }
       },
       "delete": {
-        "summary": "Endpoint for deleting an user profile",
+        "summary": "Endpoint for deleting a user profile",
         "operationId": "delete_user_profile",
         "description": "Delete user profile",
         "parameters": [
