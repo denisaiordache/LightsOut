@@ -1,0 +1,581 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "LightsOut",
+    "description": "OpenAPI Specification.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Denisa Iordache",
+      "url": "https://github.com/denisaiordache",
+      "email": "denisa.iordache@my.fmi.unibuc.ro"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5000"
+    }
+  ],
+  "tags":[
+    {
+      "name": "user profile",
+      "description": "everything about user profiles"
+    },
+    {
+      "name": "room",
+      "description": "everything about rooms"
+
+    },
+    {
+      "name": "light",
+      "description": "everything abour lights"
+
+    }
+
+
+  ],
+  "paths": {
+    "/user_profile/<string:profile_name>": {
+      "get": {
+        "summary": "Endpoint for getting an user profile",
+        "operationId": "get_user_profile",
+        "description": "Get user profile",
+        "parameters": [
+          {
+            "name": "profile_name",
+            "in" : "query",
+            "description" : "value needed for get method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/UserProfiles"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "204": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "put": {
+        "summary": "Endpoint for updating an user profile",
+        "operationId": "update_user_profile",
+        "description": "Update user profile",
+        "parameters": [
+          {
+            "name": "profile_name",
+            "in" : "query",
+            "description" : "value needed for put method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/UserProfiles"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "post": {
+        "summary": "Endpoint for creating an user profile",
+        "operationId": "create_user_profile",
+        "description": "Create user profile",
+        "parameters": [
+          {
+            "name": "profile_name",
+            "in" : "query",
+            "description" : "value needed for post method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/UserProfiles"
+                  }
+            }
+
+
+          }
+
+        ],
+         "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "delete": {
+        "summary": "Endpoint for deleting an user profile",
+        "operationId": "delete_user_profile",
+        "description": "Delete user profile",
+        "parameters": [
+          {
+            "name": "profile_name",
+            "in" : "query",
+            "description" : "value needed for delete method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/UserProfiles"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      }
+    },
+     "/room/<int:id>": {
+      "get": {
+        "summary": "Endpoint for getting a room",
+        "operationId": "get_room",
+        "description": "Get room",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in" : "query",
+            "description" : "value needed for get method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Rooms"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "201": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "put": {
+        "summary": "Endpoint for updating a room",
+        "operationId": "update_room",
+        "description": "Update room",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in" : "query",
+            "description" : "value needed for put method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Rooms"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "post": {
+        "summary": "Endpoint for creating a room",
+        "operationId": "create_room",
+        "description": "Create room",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in" : "query",
+            "description" : "value needed for post method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Rooms"
+                  }
+            }
+
+
+          }
+
+        ],
+         "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "delete": {
+        "summary": "Endpoint for deleting a room",
+        "operationId": "delete_room",
+        "description": "Delete room",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in" : "query",
+            "description" : "value needed for delete method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Rooms"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      }
+    },
+    "/light/<int:id>": {
+      "get": {
+        "summary": "Endpoint for getting a light",
+        "operationId": "get_light",
+        "description": "Get light",
+        "parameters": [
+          {
+            "name": "light_id",
+            "in" : "query",
+            "description" : "value needed for get method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Lights"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "201": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "put": {
+        "summary": "Endpoint for updating a light",
+        "operationId": "update_light",
+        "description": "Update light",
+        "parameters": [
+          {
+            "name": "light_id",
+            "in" : "query",
+            "description" : "value needed for put method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Lights"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "post": {
+        "summary": "Endpoint for creating a light",
+        "operationId": "create_light",
+        "description": "Create light",
+        "parameters": [
+          {
+            "name": "light_id",
+            "in" : "query",
+            "description" : "value needed for post method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Lights"
+                  }
+            }
+
+
+          }
+
+        ],
+         "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      },
+      "delete": {
+        "summary": "Endpoint for deleting a light",
+        "operationId": "delete_light",
+        "description": "Delete light",
+        "parameters": [
+          {
+            "name": "light_id",
+            "in" : "query",
+            "description" : "value needed for delete method",
+            "required" : true,
+            "schema": {
+              "type": "string",
+              "items": {
+                    "$ref": "#/components/schemas/Lights"
+                  }
+            }
+
+
+          }
+
+        ],
+        "responses": {
+            "200": {
+              "description": "successful operation"
+
+            },
+            "400": {
+              "description": "failed operation"
+
+            }
+          }
+      }
+    }
+
+  },
+  "components": {
+    "schemas": {
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "profile_name": {
+            "type": "string"
+          },
+         "wake_up_hour": {
+            "type": "string"
+          },
+          "sleep_hour": {
+            "type": "string"
+          },
+          "timer": {
+            "type": "string"
+          },
+          "same_as_outside_lights": {
+            "type": "string"
+          }
+        }
+      },
+      "Light": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+         "intensity": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "room_id": {
+            "type": "string"
+          }
+        }
+      },
+       "Room": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "profile_name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "SuccessfulRegister": {
+       "description":"New user has successfully been registered",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/StatusResponse"
+           }
+         }
+
+       }
+    },
+    "FailedRegistration": {
+       "description":"Authentication failed",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/StatusResponse"
+           }
+         }
+
+       }
+    },
+    "SuccessfulLogin": {
+       "description":"New user has successfully logged in",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/StatusResponse"
+           }
+         }
+
+       }
+    },
+    "FailedLogin": {
+       "description":"Login failed",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/StatusResponse"
+           }
+         }
+
+       }
+    },
+    "SuccessfulRoomRetrieval": {
+       "description":"Successfully retrieved the room info",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/RoomResponse"
+           }
+         }
+
+       }
+    },
+    "FailedRoomRetrieval": {
+       "description":"Failed to retrieve the room info",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/RoomResponse"
+           }
+         }
+
+       }
+    },
+    "SuccessfulLightRetrieval": {
+       "description":"Successfully retrieved the light info",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/LightResponse"
+           }
+         }
+
+       }
+    },
+    "FailedLightRetrieval": {
+       "description":"Failed to retrieve the room info",
+       "content": {
+         "application/json": {
+           "schema": {
+              "$ref": "#/components/schemas/LightResponse"
+           }
+         }
+
+       }
+    }
+  }
+
+
+
+}
