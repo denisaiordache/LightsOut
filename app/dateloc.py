@@ -1,13 +1,12 @@
-import geocoder as geo  # https://geocoder.readthedocs.io/providers/IPInfo.html
+import geocoder as geo 
 import datetime as dt
 import urllib.request, json
 import time
 
 def getLatLong():
     gloc = geo.ip('me')
-    # TODO: make pop up appear and have user enter their address (country/city) since ip look-up failed
     if not gloc.ok:
-        pass  # https://geocoder.readthedocs.io/providers/HERE.html
+        pass  
     return gloc.latlng
 
 
