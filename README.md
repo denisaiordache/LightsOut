@@ -23,49 +23,49 @@ https://openap.is
 
 ### Instalation
 
-You should have python3 and pip3 installed. 
+You should have python3 and pip3 installed.   
 
-1. cd into this project  
-`cd app`
+1. cd into this project
+`cd app`  
 
-2. Install libraries
-`pip install -r requirements.txt`
+2. Install libraries  
+`pip install -r requirements.txt`  
 
-3. Make sure that the "RESET_DATABASE_ON_STARTUP" flag in app/config/config.py is set to True
+3. Make sure that the "RESET_DATABASE_ON_STARTUP" flag in app/config/config.py is set to True  
    
-4. Run  
-`python application.py`
+4. Run
+`python application.py`  
 
-5. cd into the mqtt folder
-`cd mqtt`
+5. cd into the mqtt folder  
+`cd mqtt`  
 
-6. Run each of the following mqtt scripts in their own seperate terminal:
-    -for the movement sensor:
-    `python mock_movement_sensor.py`
-    `python internal_light_switch.py`
-    -for the wake-up/sleep functionalities:
-    `python light_intesity_shifter.py`
-    `python internal_clock.py`
-    `python database_checker.py`
+6. Run each of the following mqtt scripts in their own seperate terminal:  
+    -for the movement sensor:  
+    `python mock_movement_sensor.py`  
+    `python internal_light_switch.py`  
+    -for the wake-up/sleep functionalities:  
+    `python light_intesity_shifter.py`  
+    `python internal_clock.py`  
+    `python database_checker.py`  
+  
+7. cd into the GUI folder  
+`cd ..`  
+`cd GUI`  
 
-7. cd into the GUI folder
-`cd ..`
-`cd GUI`
+8. Run the GUI  
+`python mainApp.py`  
 
-8. Run the GUI
-`python mainApp.py`
+9. cd into the testing folder  
+`cd ..`  
+`cd tests`  
+`cd unit.integration_tests`  
 
-9. cd into the testing folder
-`cd ..`
-`cd tests`
-`cd unit.integration_tests`
-
-10. Run the tests
-`pytest test_createProfileFrames.py`
-`pytest test_mainApp.py`
-`pytest test_roomsView.py`
-`pytest test_routes.py`
-`pytest test_updateProfile.py`
+10. Run the tests  
+`pytest test_createProfileFrames.py`  
+`pytest test_mainApp.py`  
+`pytest test_roomsView.py`  
+`pytest test_routes.py`  
+`pytest test_updateProfile.py`  
 
 ### Testing
 Using testing tutorial: https://flask.palletsprojects.com/en/2.0.x/ and https://pytest-flask.readthedocs.io/en/latest/#
